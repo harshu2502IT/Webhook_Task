@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StayHub - Book hotels, resorts, and rooms worldwide at the best prices. Easy, secure, and instant booking.">
+    <title>StayHub • Book Your Perfect Stay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --tw-color-primary: #0ea5e9;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('https://picsum.photos/id/1015/2000/1200');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0ea5e9;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 25px 25px 30px -10px rgb(14 165 233);
+        }
+        
+        .search-form input,
+        .search-form select {
+            border: 2px solid #e5e7eb;
+        }
+        
+        .search-form input:focus,
+        .search-form select:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-sky-500 rounded-2xl flex items-center justify-center text-white text-3xl shadow-inner">
+                    🏨
+                </div>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900" style="font-family: 'Playfair Display', sans-serif;">
+                    StayHub
+                </h1>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-base font-medium text-gray-700">
+                <a href="#" onclick="navigateToSection('destinations')" class="nav-link hover:text-sky-600">Destinations</a>
+                <a href="#" onclick="navigateToSection('featured')" class="nav-link hover:text-sky-600">Rooms &amp; Stays</a>
+                <a href="#" onclick="navigateToSection('deals')" class="nav-link hover:text-sky-600">Deals</a>
+                <a href="#" class="nav-link hover:text-sky-600">List your property</a>
+                <a href="#" onclick="navigateToSection('how')" class="nav-link hover:text-sky-600">How it works</a>
+            </div>
+
+            <!-- Right side -->
+            <div class="flex items-center gap-4">
+                <!-- Language & Currency -->
+                <div class="hidden sm:flex items-center gap-1 text-sm font-medium cursor-pointer hover:text-sky-600">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>EN • ₹</span>
+                </div>
+
+                <!-- Become a host -->
+                <button onclick="alert('Host dashboard coming soon! 🎉\n\nIn a real app this would open the partner registration form.')"
+                        class="hidden md:flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-gray-300 hover:border-gray-400 rounded-3xl hover:shadow">
+                    <i class="fa-solid fa-house-circle-check"></i>
+                    <span>List your place</span>
+                </button>
+
+                <!-- Account -->
+                <div class="flex items-center gap-2 bg-white border border-gray-200 hover:border-sky-300 rounded-3xl pl-2 pr-5 py-1 cursor-pointer shadow-sm" onclick="showLoginModal()">
+                    <div class="w-8 h-8 bg-gray-100 rounded-2xl flex items-center justify-center text-lg">👤</div>
+                    <div class="text-sm font-semibold">Sign in</div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-3xl text-gray-700">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t px-6 py-6">
+            <div class="flex flex-col gap-6 text-lg font-medium text-gray-700">
+                <a href="#" onclick="navigateToSection('destinations');toggleMobileMenu()" class="flex items-center gap-3"><i class="fa-solid fa-map-marker-alt w-6"></i> Destinations</a>
+                <a href="#" onclick="navigateToSection('featured');toggleMobileMenu()" class="flex items-center gap-3"><i class="fa-solid fa-bed w-6"></i> Rooms &amp; Stays</a>
+                <a href="#" onclick="navigateToSection('deals');toggleMobileMenu()" class="flex items-center gap-3"><i class="fa-solid fa-tag w-6"></i> Special Deals</a>
+                <a href="#" class="flex items-center gap-3"><i class="fa-solid fa-house-circle-check w-6"></i> List your property</a>
+                <a href="#" onclick="navigateToSection('how');toggleMobileMenu()" class="flex items-center gap-3"><i class="fa-solid fa-info-circle w-6"></i> How it works</a>
+                
+                <div class="pt-4 border-t">
+                    <button onclick="showLoginModal();toggleMobileMenu()" 
+                            class="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-4 rounded-3xl flex items-center justify-center gap-3 text-lg">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Sign in / Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero-bg h-screen flex items-center relative text-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="max-w-2xl">
+                <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tighter mb-6" style="font-family: 'Playfair Display', sans-serif;">
+                    Find your perfect<br>room. Book in seconds.
+                </h2>
+                <p class="text-2xl text-white/90 mb-10">Over 2,84,391 properties • 147 countries • Real guest reviews</p>
+                
+                <!-- Search Card -->
+                <div class="bg-white rounded-3xl shadow-2xl p-2 text-gray-900">
+                    <form id="searchForm" onsubmit="performSearch(event)" class="search-form grid md:grid-cols-12 gap-2">
+                        
+                        <!-- Destination -->
+                        <div class="md:col-span-5 px-6 pt-6 pb-4 md:border-r border-gray-200">
+                            <label class="block text-xs font-semibold tracking-widest text-gray-500 mb-1">WHERE TO?</label>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-location-dot text-2xl text-sky-500"></i>
+                                <input 
+                                    type="text" 
+                                    id="location"
+                                    value="Pune, Maharashtra"
+                                    placeholder="City, hotel, or landmark"
+                                    class="w-full text-xl font-medium focus:outline-none placeholder:text-gray-400 bg-transparent">
+                            </div>
+                        </div>
+
+                        <!-- Check-in -->
+                        <div class="md:col-span-3 px-6 pt-6 pb-4 md:border-r border-gray-200">
+                            <label class="block text-xs font-semibold tracking-widest text-gray-500 mb-1">CHECK-IN</label>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-calendar text-2xl text-sky-500"></i>
+                                <input 
+                                    type="date" 
+                                    id="checkin"
+                                    class="w-full text-xl font-medium focus:outline-none bg-transparent">
+                            </div>
+                        </div>
+
+                        <!-- Check-out -->
+                        <div class="md:col-span-3 px-6 pt-6 pb-4">
+                            <label class="block text-xs font-semibold tracking-widest text-gray-500 mb-1">CHECK-OUT</label>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-calendar text-2xl text-sky-500"></i>
+                                <input 
+                                    type="date" 
+                                    id="checkout"
+                                    class="w-full text-xl font-medium focus:outline-none bg-transparent">
+                            </div>
+                        </div>
+
+                        <!-- Guests -->
+                        <div class="md:col-span-3 px-6 pt-6 pb-4 md:border-r border-gray-200 md:border-l-0">
+                            <label class="block text-xs font-semibold tracking-widest text-gray-500 mb-1">GUESTS</label>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-user-group text-2xl text-sky-500"></i>
+                                <select id="guests" class="w-full text-xl font-medium focus:outline-none bg-transparent">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5+ Guests</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="md:col-span-3 flex items-end md:items-center justify-center px-4">
+                            <button type="submit"
+                                    class="w-full md:w-auto bg-sky-500 hover:bg-sky-600 active:scale-95 text-white font-semibold text-2xl px-10 py-6 md:py-7 rounded-3xl flex items-center justify-center gap-3 shadow-lg shadow-sky-300">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="flex items-center gap-6 mt-8 text-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-3xl flex items-center gap-1 text-white text-xs font-medium">
+                            <i class="fa-solid fa-check"></i>
+                            FREE CANCELLATION
+                        </div>
+                    </div>
+                    <div class="text-white/80 text-sm">• Trusted by 1.8 million travellers this month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="hidden xl:flex absolute bottom-12 right-12 bg-white text-gray-900 rounded-3xl shadow-2xl p-6 flex-col gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">⭐️</span>
+                <div>
+                    <div class="font-semibold">4.98 average rating</div>
+                    <div class="text-sm text-gray-500">from 142,893 reviews</div>
+                </div>
+            </div>
+            <div class="h-px bg-gray-200 w-full"></div>
+            <div class="flex items-center gap-2 text-sm font-medium">
+                <i class="fa-solid fa-shield-halved text-emerald-500"></i>
+                Secure payments • 24×7 support
+            </div>
+        </div>
+    </header>
+
+    <!-- TRUST BAR -->
+    <div class="bg-white py-6 border-b">
+        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center md:justify-between items-center gap-x-12 gap-y-4 text-gray-400 text-sm font-medium">
+            <div class="flex items-center gap-2"><i class="fa-solid fa-credit-card"></i> Secure payments</div>
+            <div class="flex items-center gap-2"><i class="fa-solid fa-lock"></i> Verified properties only</div>
+            <div class="flex items-center gap-2"><i class="fa-solid fa-headset"></i> 24/7 customer support</div>
+            <div class="flex items-center gap-2"><i class="fa-solid fa-wifi"></i> Free Wi‑Fi at most stays</div>
+            <div class="flex items-center gap-2"><i class="fa-solid fa-utensils"></i> Breakfast included options</div>
+            <div class="flex items-center gap-2"><i class="fa-solid fa-car"></i> Free parking available</div>
+        </div>
+    </div>
+
+    <!-- POPULAR DESTINATIONS -->
+    <section id="destinations" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="flex items-end justify-between mb-8">
+            <div>
+                <span class="uppercase text-sky-500 font-semibold tracking-widest text-sm">Trending now</span>
+                <h2 class="text-4xl font-semibold text-gray-900">Popular destinations near you</h2>
+            </div>
+            <a href="#" class="hidden sm:flex items-center gap-2 text-sky-500 font-medium hover:text-sky-600">
+                Explore all destinations <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+            <!-- Card 1 -->
+            <div onclick="quickSearch('Mumbai')" class="group cursor-pointer">
+                <div class="relative rounded-3xl overflow-hidden aspect-video shadow-md card-hover">
+                    <img src="https://picsum.photos/id/1016/600/400" alt="Mumbai" class="w-full h-full object-cover group-hover:scale-110">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 h-1/2"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-2xl font-semibold">Mumbai</div>
+                        <div class="text-sm opacity-75">1,284 rooms • From ₹1,899</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div onclick="quickSearch('Goa')" class="group cursor-pointer">
+                <div class="relative rounded-3xl overflow-hidden aspect-video shadow-md card-hover">
+                    <img src="https://picsum.photos/id/133/600/400" alt="Goa" class="w-full h-full object-cover group-hover:scale-110">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 h-1/2"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-2xl font-semibold">Goa</div>
+                        <div class="text-sm opacity-75">892 beach stays • From ₹2,299</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div onclick="quickSearch('Bangalore')" class="group cursor-pointer">
+                <div class="relative rounded-3xl overflow-hidden aspect-video shadow-md card-hover">
+                    <img src="https://picsum.photos/id/201/600/400" alt="Bangalore" class="w-full h-full object-cover group-hover:scale-110">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 h-1/2"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-2xl font-semibold">Bangalore</div>
+                        <div class="text-sm opacity-75">1,673 stays • From ₹1,499</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div onclick="quickSearch('Delhi')" class="group cursor-pointer">
+                <div class="relative rounded-3xl overflow-hidden aspect-video shadow-md card-hover">
+                    <img src="https://picsum.photos/id/1005/600/400" alt="Delhi" class="w-full h-full object-cover group-hover:scale-110">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 h-1/2"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-2xl font-semibold">Delhi</div>
+                        <div class="text-sm opacity-75">2,104 properties • From ₹1,299</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div onclick="quickSearch('Jaipur')" class="group cursor-pointer">
+                <div class="relative rounded-3xl overflow-hidden aspect-video shadow-md card-hover">
+                    <img src="https://picsum.photos/id/160/600/400" alt="Jaipur" class="w-full h-full object-cover group-hover:scale-110">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 h-1/2"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-2xl font-semibold">Jaipur</div>
+                        <div class="text-sm opacity-75">Heritage stays • From ₹2,499</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div onclick="quickSearch('Kerala')" class="group cursor-pointer">
+                <div class="relative rounded-3xl overflow-hidden aspect-video shadow-md card-hover">
+                    <img src="https://picsum.photos/id/1018/600/400" alt="Kerala" class="w-full h-full object-cover group-hover:scale-110">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 h-1/2"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-2xl font-semibold">Kerala</div>
+                        <div class="text-sm opacity-75">Backwater villas • From ₹3,299</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED ROOMS -->
+    <section id="featured" class="bg-gray-50 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-baseline mb-8">
+                <h2 class="text-4xl font-semibold text-gray-900">Featured stays this week</h2>
+                <a onclick="viewAllRooms()" class="flex items-center gap-2 text-sky-600 font-medium text-lg">
+                    See all rooms <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Room 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/1015/600/400" alt="Luxury Suite" class="w-full aspect-video object-cover">
+                        <div class="absolute top-4 right-4 bg-white text-emerald-600 text-xs font-bold px-3 py-1 rounded-2xl flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-star"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between text-sm text-gray-500 mb-1">
+                            <span>Mumbai • 4.2 km from airport</span>
+                            <span class="text-emerald-500">Free cancellation</span>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-1">Ocean View Luxury Suite at Taj Lands End</h3>
+                        <div class="flex items-center gap-2 text-amber-400 mb-4">
+                            ★★★★☆ <span class="text-gray-400 text-sm">(428 reviews)</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <div>
+                                <span class="text-3xl font-semibold">₹8,999</span>
+                                <span class="text-gray-500 text-sm">/night</span>
+                            </div>
+                            <button onclick="bookNow(1)" 
+                                    class="bg-sky-500 hover:bg-sky-600 text-white px-8 py-3 rounded-3xl font-semibold">Book now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/133/600/400" alt="Beach Villa" class="w-full aspect-video object-cover">
+                        <div class="absolute top-4 right-4 bg-white text-emerald-600 text-xs font-bold px-3 py-1 rounded-2xl flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-star"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between text-sm text-gray-500 mb-1">
+                            <span>Goa • Beachfront</span>
+                            <span class="text-emerald-500">Breakfast included</span>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-1">Private Beach Villa with Pool • W Goa</h3>
+                        <div class="flex items-center gap-2 text-amber-400 mb-4">
+                            ★★★★☆ <span class="text-gray-400 text-sm">(312 reviews)</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <div>
+                                <span class="text-3xl font-semibold">₹14,500</span>
+                                <span class="text-gray-500 text-sm">/night</span>
+                            </div>
+                            <button onclick="bookNow(2)" 
+                                    class="bg-sky-500 hover:bg-sky-600 text-white px-8 py-3 rounded-3xl font-semibold">Book now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 3 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/201/600/400" alt="Mountain Resort" class="w-full aspect-video object-cover">
+                        <div class="absolute top-4 right-4 bg-white text-emerald-600 text-xs font-bold px-3 py-1 rounded-2xl flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-star"></i> 5.0
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between text-sm text-gray-500 mb-1">
+                            <span>Pune • Lonavala</span>
+                            <span class="text-emerald-500">Best seller</span>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-1">Luxury Forest Cottage • The Machan</h3>
+                        <div class="flex items-center gap-2 text-amber-400 mb-4">
+                            ★★★★★ <span class="text-gray-400 text-sm">(189 reviews)</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <div>
+                                <span class="text-3xl font-semibold">₹6,299</span>
+                                <span class="text-gray-500 text-sm">/night</span>
+                            </div>
+                            <button onclick="bookNow(3)" 
+                                    class="bg-sky-500 hover:bg-sky-600 text-white px-8 py-3 rounded-3xl font-semibold">Book now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 4 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/1005/600/400" alt="City Hotel" class="w-full aspect-video object-cover">
+                        <div class="absolute top-4 right-4 bg-white text-emerald-600 text-xs font-bold px-3 py-1 rounded-2xl flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-star"></i> 4.7
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between text-sm text-gray-500 mb-1">
+                            <span>Bangalore • MG Road</span>
+                            <span class="text-amber-500">Limited time deal</span>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-1">Executive Room at Sheraton Grand</h3>
+                        <div class="flex items-center gap-2 text-amber-400 mb-4">
+                            ★★★★☆ <span class="text-gray-400 text-sm">(521 reviews)</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <div>
+                                <span class="text-3xl font-semibold">₹4,899</span>
+                                <span class="text-gray-500 text-sm line-through text-xs">₹6,200</span>
+                            </div>
+                            <button onclick="bookNow(4)" 
+                                    class="bg-sky-500 hover:bg-sky-600 text-white px-8 py-3 rounded-3xl font-semibold">Book now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPECIAL DEALS -->
+    <section id="deals" class="max-w-7xl mx-auto px-6 py-16">
+        <h2 class="text-4xl font-semibold mb-8">🔥 Limited-time deals</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="border border-orange-200 bg-gradient-to-br from-orange-50 to-white rounded-3xl p-8 flex flex-col justify-between">
+                <div>
+                    <div class="uppercase text-orange-600 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-fire"></i> 48 HOURS LEFT</div>
+                    <h3 class="text-3xl font-semibold mt-3">30% OFF in Goa this weekend</h3>
+                    <p class="mt-2 text-gray-600">Book any beach property before Tuesday and get instant 30% discount</p>
+                </div>
+                <button onclick="claimDeal()" class="mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 px-8 rounded-3xl font-semibold text-lg">Grab this deal</button>
+            </div>
+
+            <div class="border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white rounded-3xl p-8 flex flex-col justify-between">
+                <div>
+                    <div class="uppercase text-emerald-600 font-bold text-sm">NEW • LAST CHANCE</div>
+                    <h3 class="text-3xl font-semibold mt-3">Free breakfast + spa credit</h3>
+                    <p class="mt-2 text-gray-600">At 50+ luxury resorts in Rajasthan. Valid for stays in May 2026</p>
+                </div>
+                <button onclick="claimDeal()" class="mt-8 bg-emerald-500 hover:bg-emerald-600 text-white py-4 px-8 rounded-3xl font-semibold text-lg">Claim offer</button>
+            </div>
+
+            <div class="border border-sky-200 bg-gradient-to-br from-sky-50 to-white rounded-3xl p-8 flex flex-col justify-between">
+                <div>
+                    <div class="uppercase text-sky-600 font-bold text-sm">MEMBER EXCLUSIVE</div>
+                    <h3 class="text-3xl font-semibold mt-3">Stay 2 nights, pay for 1</h3>
+                    <p class="mt-2 text-gray-600">For StayHub members in Pune, Mumbai &amp; Bangalore only</p>
+                </div>
+                <button onclick="claimDeal()" class="mt-8 bg-sky-500 hover:bg-sky-600 text-white py-4 px-8 rounded-3xl font-semibold text-lg">Join free &amp; save</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="px-4 py-2 bg-sky-100 text-sky-600 rounded-3xl text-sm font-semibold">3 STEPS. 30 SECONDS.</span>
+                <h2 class="text-4xl font-semibold mt-4">Booking made ridiculously easy</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="text-center">
+                    <div class="mx-auto w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-4xl mb-6">🔍</div>
+                    <h4 class="font-semibold text-2xl mb-3">Search &amp; compare</h4>
+                    <p class="text-gray-600">Instantly see thousands of verified rooms with real photos and reviews</p>
+                </div>
+                <div class="text-center">
+                    <div class="mx-auto w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-4xl mb-6">📅</div>
+                    <h4 class="font-semibold text-2xl mb-3">Pick your dates</h4>
+                    <p class="text-gray-600">Flexible check-in/out + instant availability calendar</p>
+                </div>
+                <div class="text-center">
+                    <div class="mx-auto w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-4xl mb-6">✅</div>
+                    <h4 class="font-semibold text-2xl mb-3">Confirm &amp; relax</h4>
+                    <p class="text-gray-600">Pay securely. Get confirmation instantly. Cancel anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-semibold text-center mb-12">Real travellers. Real stories.</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8">
+                    <div class="flex gap-1 text-yellow-400 mb-4">★★★★★</div>
+                    <p class="italic text-lg">"Found the most beautiful villa in Goa in under 2 minutes. The booking process was smoother than any app I've used. Thank you StayHub!"</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-orange-300 rounded-2xl"></div>
+                        <div>
+                            <div class="font-semibold">Priya Sharma</div>
+                            <div class="text-xs opacity-70">Bengaluru • 2 weeks ago</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8">
+                    <div class="flex gap-1 text-yellow-400 mb-4">★★★★☆</div>
+                    <p class="italic text-lg">"Booked a last-minute stay in Pune for a family function. Got an amazing deal and the host was super responsive. Best booking experience ever."</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-300 rounded-2xl"></div>
+                        <div>
+                            <div class="font-semibold">Rahul Patel</div>
+                            <div class="text-xs opacity-70">Pune • 4 days ago</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8">
+                    <div class="flex gap-1 text-yellow-400 mb-4">★★★★★</div>
+                    <p class="italic text-lg">"The map view and filters saved me so much time. Stayed at a mountain resort in Lonavala – everything was exactly as shown in the photos."</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-300 rounded-2xl"></div>
+                        <div>
+                            <div class="font-semibold">Anika Rao</div>
+                            <div class="text-xs opacity-70">Mumbai • 1 month ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div class="bg-gradient-to-r from-sky-500 to-indigo-600 py-12 text-white text-center">
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="text-4xl font-semibold mb-3">Ready to book your next adventure?</h2>
+            <p class="text-xl opacity-90">Join 1.8 million happy travellers who book with StayHub every month.</p>
+            <button onclick="performSearch(null)" 
+                    class="mt-8 bg-white text-gray-900 hover:bg-amber-200 px-12 py-5 rounded-3xl text-2xl font-semibold flex items-center gap-4 mx-auto">
+                Start searching rooms now
+                <i class="fa-solid fa-arrow-right text-3xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto px-6 pt-16 pb-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-y-10">
+                <div>
+                    <div class="flex items-center gap-3 text-white mb-6">
+                        <div class="w-9 h-9 bg-sky-500 rounded-2xl flex items-center justify-center text-3xl">🏨</div>
+                        <span class="text-3xl font-bold" style="font-family: 'Playfair Display', sans-serif;">StayHub</span>
+                    </div>
+                    <p class="text-sm leading-relaxed">The smartest way to book rooms, villas, resorts &amp; more across India and the world.</p>
+                    <div class="flex gap-4 mt-8 text-2xl">
+                        <i class="fa-brands fa-instagram cursor-pointer hover:text-white"></i>
+                        <i class="fa-brands fa-x-twitter cursor-pointer hover:text-white"></i>
+                        <i class="fa-brands fa-linkedin cursor-pointer hover:text-white"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-semibold text-white mb-4">Company</div>
+                    <div class="space-y-3 text-sm">
+                        <div>About Us</div>
+                        <div>Careers</div>
+                        <div>Blog</div>
+                        <div>Press</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-semibold text-white mb-4">Explore</div>
+                    <div class="space-y-3 text-sm">
+                        <div>Destinations</div>
+                        <div>Last-minute deals</div>
+                        <div>Travel guides</div>
+                        <div>Things to do</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-semibold text-white mb-4">Support</div>
+                    <div class="space-y-3 text-sm">
+                        <div>Help Center</div>
+                        <div>Contact us</div>
+                        <div>Cancellation policy</div>
+                        <div>Safety tips</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-semibold text-white mb-4">For hosts</div>
+                    <div class="space-y-3 text-sm">
+                        <div>List your property</div>
+                        <div>Host resources</div>
+                        <div>Community forum</div>
+                        <div>Host protection</div>
+                    </div>
+                    <div class="mt-8 bg-white/10 rounded-3xl px-6 py-4 text-xs text-white flex items-center gap-3">
+                        <i class="fa-solid fa-download"></i>
+                        Download the app for faster bookings
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-xs mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>© 2026 StayHub Technologies Pvt Ltd. All rights reserved.</div>
+                <div class="flex gap-6 text-xs">
+                    <div>Privacy</div>
+                    <div>Terms</div>
+                    <div>Cookies</div>
+                    <div>Accessibility</div>
+                </div>
+                <div class="text-emerald-400">Made with ❤️ for travellers everywhere</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" onclick="if(event.target.id === 'loginModal') hideLoginModal()" 
+         class="hidden fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-white rounded-3xl max-w-md w-full mx-4 overflow-hidden">
+            <div class="px-8 py-6 border-b flex justify-between items-center">
+                <h3 class="text-2xl font-semibold">Welcome back!</h3>
+                <i onclick="hideLoginModal()" class="fa-solid fa-xmark text-3xl cursor-pointer"></i>
+            </div>
+            
+            <div class="p-8">
+                <div class="space-y-4">
+                    <button onclick="fakeLogin('Google')" 
+                            class="w-full border flex items-center justify-center gap-4 py-5 rounded-3xl hover:bg-gray-50">
+                        <i class="fa-brands fa-google text-2xl"></i>
+                        <span class="font-medium">Continue with Google</span>
+                    </button>
+                    <button onclick="fakeLogin('Apple')" 
+                            class="w-full border flex items-center justify-center gap-4 py-5 rounded-3xl hover:bg-gray-50">
+                        <i class="fa-brands fa-apple text-3xl"></i>
+                        <span class="font-medium">Continue with Apple</span>
+                    </button>
+                    
+                    <div class="text-center text-sm text-gray-400 my-4">or</div>
+                    
+                    <input type="email" placeholder="Email address" 
+                           class="w-full border rounded-3xl py-5 px-6 text-lg">
+                    
+                    <button onclick="fakeLogin('email')" 
+                            class="w-full bg-gray-900 hover:bg-black text-white py-5 rounded-3xl font-semibold text-lg">
+                        Continue with email
+                    </button>
+                </div>
+            </div>
+            
+            <div class="px-8 py-6 text-xs text-center text-gray-500 border-t">
+                By continuing, you agree to our <span class="underline">Terms of Service</span> and <span class="underline">Privacy Policy</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Main script for StayHub index page
+         * Fully functional demo homepage
+         */
+
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        configUser: userConfig,
+                        theme: {
+                            extend: {
+                                colors: {
+                                    primary: '#0ea5e9'
+                                }
+                            }
+                        }
+                    }
+                },
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+
+        // Tailwind initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            const config = initializeTailwind()
+            return (document.documentElement.setAttribute('data-tailwind-config', JSON.stringify(config)))
+            
+            // Set default dates
+            const today = new Date()
+            const checkin = document.getElementById('checkin')
+            const checkout = document.getElementById('checkout')
+            
+            if (checkin) {
+                checkin.min = today.toISOString().split('T')[0]
+                checkin.value = new Date(today.getTime() + 86400000 * 1).toISOString().split('T')[0] // tomorrow
+            }
+            
+            if (checkout) {
+                checkout.min = new Date(today.getTime() + 86400000 * 2).toISOString().split('T')[0]
+                checkout.value = new Date(today.getTime() + 86400000 * 5).toISOString().split('T')[0] // 5 days later
+            }
+            
+            console.log('%c✅ StayHub index page loaded successfully!', 'color:#0ea5e9; font-size:13px; font-weight:600')
+        })
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu')
+            menu.classList.toggle('hidden')
+        }
+
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.remove('hidden')
+            document.getElementById('loginModal').classList.add('flex')
+        }
+
+        function hideLoginModal() {
+            const modal = document.getElementById('loginModal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+
+        function fakeLogin(method) {
+            hideLoginModal()
+            setTimeout(() => {
+                alert(`🎉 Logged in successfully with ${method}!\n\nWelcome to StayHub, Harsh 👋`)
+            }, 600)
+        }
+
+        function performSearch(e) {
+            if (e) e.preventDefault()
+            
+            const location = document.getElementById('location').value || 'Pune'
+            const checkin = document.getElementById('checkin').value
+            const checkout = document.getElementById('checkout').value
+            
+            const message = `🔍 Searching for rooms in <strong>${location}</strong> from ${checkin || 'tomorrow'} to ${checkout || '5 days later'}...`
+            
+            const loading = document.createElement('div')
+            loading.style.cssText = 'position:fixed; top:30%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px 30px; border-radius:9999px; box-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25); z-index:99999; display:flex; align-items:center; gap:12px;'
+            loading.innerHTML = `
+                <div class="animate-spin w-6 h-6 border-2 border-sky-500 border-t-transparent rounded-full"></div>
+                <span class="font-medium">${message}</span>
+            `
+            document.body.appendChild(loading)
+            
+            setTimeout(() => {
+                loading.remove()
+                window.scrollTo({
+                    top: document.getElementById('featured').offsetTop - 80,
+                    behavior: 'smooth'
+                })
+                
+                // Fake results toast
+                const toast = document.createElement('div')
+                toast.style.cssText = 'position:fixed; bottom:24px; right:24px; background:#0ea5e9; color:white; padding:16px 24px; border-radius:9999px; box-shadow:0 10px 15px -3px rgb(14 165 233); font-weight:600; display:flex; align-items:center; gap:8px;'
+                toast.innerHTML = `✅ Found <strong>187 rooms</strong> in ${location}!`
+                document.body.appendChild(toast)
+                
+                setTimeout(() => toast.remove(), 3200)
+            }, 1850)
+        }
+
+        function quickSearch(city) {
+            document.getElementById('location').value = city
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+            setTimeout(() => performSearch(null), 600)
+        }
+
+        function bookNow(id) {
+            const messages = {
+                1: "🎟️ Booking confirmed for Taj Lands End Suite!\n\nConfirmation #SH-874291 sent to your email.",
+                2: "🏖️ Private beach villa booked in Goa!\n\nYour host will contact you shortly.",
+                3: "🌲 Forest cottage in Lonavala confirmed!\n\nEnjoy your peaceful getaway.",
+                4: "🏙️ Sheraton Grand room reserved!\n\nEnjoy 30% off breakfast with your booking."
+            }
+            
+            alert(messages[id] || '✅ Room booked successfully!')
+        }
+
+        function claimDeal() {
+            alert('🎟️ Deal activated!\n\nCheck your email for the promo code. Valid for next 48 hours.')
+        }
+
+        function viewAllRooms() {
+            alert('📋 Showing all available rooms near you...\n\n(You would be redirected to the full listings page in a real website)')
+            window.scrollTo({
+                top: document.getElementById('featured').offsetTop - 80,
+                behavior: 'smooth'
+            })
+        }
+
+        function navigateToSection(section) {
+            const el = document.getElementById(section)
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' })
+            }
+        }
+
+        // Keyboard shortcut: press "/" to focus search
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName === "BODY") {
+                e.preventDefault()
+                document.getElementById('location').focus()
+            }
+        })
+    </script>
+</body>
+</html>
