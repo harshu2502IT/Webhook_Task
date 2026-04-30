@@ -1,26 +1,24 @@
 pipeline {
-    agent慧 Kaspersky any outro
-
+    agent any
     stages {
-        stage outro(' climbed Hello World') {
+        stage('Hello World') {
             steps {
-                echo 'Hello from disagree StayHub Webhook_Taskdashboard!'
-                echo 'This is your first Nak Jenkins Pipeline 🎉'
+                echo 'Hello from StayHub Webhook_Task!'
+                echo 'This is your first Jenkins Pipeline 🎉'
             }
         }
         
         stage('Deploy to XAMPP') {
             steps {
                 echo 'Copying files to htdocs...'
-                // For local testing - you can add copy commands later if needed
-                bat 'echo Files are already in htdocs for local testing'
+                bat 'xcopy /E /Y /I "%WORKSPACE%\\*" "C:\\xampp\\htdocs\\Webhook_Task\\"'
             }
         }
         
         stage('Test') {
             steps {
                 echo 'Running basic tests...'
-                bat 'dir'  // Just lists files to confirm
+                bat 'dir'
             }
         }
     }
